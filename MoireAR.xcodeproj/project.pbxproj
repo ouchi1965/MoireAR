@@ -12,6 +12,7 @@
 		878DCA18204CF93B0036A7E5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 878DCA16204CF93B0036A7E5 /* Main.storyboard */; };
 		878DCA1A204CF93B0036A7E5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 878DCA19204CF93B0036A7E5 /* Assets.xcassets */; };
 		878DCA1D204CF93B0036A7E5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 878DCA1B204CF93B0036A7E5 /* LaunchScreen.storyboard */; };
+		878DCA25204D38740036A7E5 /* MoireSphere.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878DCA24204D38740036A7E5 /* MoireSphere.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +23,7 @@
 		878DCA19204CF93B0036A7E5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		878DCA1C204CF93B0036A7E5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		878DCA1E204CF93B0036A7E5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		878DCA24204D38740036A7E5 /* MoireSphere.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoireSphere.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +62,7 @@
 				878DCA19204CF93B0036A7E5 /* Assets.xcassets */,
 				878DCA1B204CF93B0036A7E5 /* LaunchScreen.storyboard */,
 				878DCA1E204CF93B0036A7E5 /* Info.plist */,
+				878DCA24204D38740036A7E5 /* MoireSphere.swift */,
 			);
 			path = MoireAR;
 			sourceTree = "<group>";
@@ -138,6 +141,7 @@
 			files = (
 				878DCA15204CF93B0036A7E5 /* ViewController.swift in Sources */,
 				878DCA13204CF93B0036A7E5 /* AppDelegate.swift in Sources */,
+				878DCA25204D38740036A7E5 /* MoireSphere.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -281,7 +285,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = KDU.MoireAR;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Debug;
 		};
@@ -296,7 +300,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = KDU.MoireAR;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Release;
 		};

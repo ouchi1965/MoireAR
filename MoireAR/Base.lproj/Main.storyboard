@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13122.16" systemVersion="17A277" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13104.12"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -9,16 +13,40 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="MoireAR" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <arscnView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wrz-bb-R2E">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="623"/>
+                            </arscnView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VW0-MQ-f7h">
+                                <rect key="frame" x="0.0" y="623" width="375" height="44"/>
+                                <items>
+                                    <barButtonItem title="Item" id="g3v-B9-OFY"/>
+                                </items>
+                            </toolbar>
+                        </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="wrz-bb-R2E" firstAttribute="trailing" secondItem="VW0-MQ-f7h" secondAttribute="trailing" id="03O-O3-GXs"/>
+                            <constraint firstItem="VW0-MQ-f7h" firstAttribute="top" secondItem="wrz-bb-R2E" secondAttribute="bottom" id="03b-fI-U7j"/>
+                            <constraint firstItem="wrz-bb-R2E" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="9q7-D1-Hed"/>
+                            <constraint firstItem="VW0-MQ-f7h" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="Q7O-qy-R5x"/>
+                            <constraint firstAttribute="trailing" secondItem="wrz-bb-R2E" secondAttribute="trailing" id="ZTS-tq-SKW"/>
+                            <constraint firstItem="wrz-bb-R2E" firstAttribute="leading" secondItem="VW0-MQ-f7h" secondAttribute="leading" id="kBJ-DD-9mU"/>
+                            <constraint firstItem="wrz-bb-R2E" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="ypc-Sc-Lre"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
+                    <connections>
+                        <outlet property="sceneView" destination="wrz-bb-R2E" id="sy1-P3-sow"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="141.59999999999999" y="133.5832083958021"/>
         </scene>
     </scenes>
 </document>
