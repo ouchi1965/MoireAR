@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
-    <device id="retina4_7" orientation="portrait">
+    <device id="ipad9_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -15,38 +16,103 @@
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="MoireAR" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <arscnView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wrz-bb-R2E">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="623"/>
+                                <rect key="frame" x="0.0" y="0.0" width="768" height="980"/>
                             </arscnView>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VW0-MQ-f7h">
-                                <rect key="frame" x="0.0" y="623" width="375" height="44"/>
+                                <rect key="frame" x="0.0" y="980" width="768" height="44"/>
                                 <items>
-                                    <barButtonItem title="Item" id="g3v-B9-OFY"/>
+                                    <barButtonItem title="設定" id="g3v-B9-OFY">
+                                        <connections>
+                                            <action selector="settingView:" destination="BYZ-38-t0r" id="758-sk-Vly"/>
+                                        </connections>
+                                    </barButtonItem>
                                 </items>
                             </toolbar>
+                            <view hidden="YES" alpha="0.5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zuS-os-FT3">
+                                <rect key="frame" x="149" y="797" width="471" height="171"/>
+                                <subviews>
+                                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="cIe-Hd-Nyl">
+                                        <rect key="frame" x="108" y="71" width="343" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="29" id="KLV-1t-xCR"/>
+                                            <constraint firstAttribute="width" constant="339" id="ZF4-YB-BdM"/>
+                                        </constraints>
+                                        <connections>
+                                            <action selector="hueChaned:" destination="BYZ-38-t0r" eventType="valueChanged" id="6BV-4m-lIT"/>
+                                        </connections>
+                                    </slider>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="NVv-Wc-hjp">
+                                        <rect key="frame" x="8" y="8" width="176" height="30"/>
+                                        <segments>
+                                            <segment title="Sphere"/>
+                                            <segment title="Box"/>
+                                            <segment title="Torus"/>
+                                        </segments>
+                                        <connections>
+                                            <action selector="nodeChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="7OJ-fL-Psv"/>
+                                        </connections>
+                                    </segmentedControl>
+                                    <stepper opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minimumValue="1" maximumValue="2" translatesAutoresizingMaskIntoConstraints="NO" id="42e-qO-7MR">
+                                        <rect key="frame" x="369" y="8" width="94" height="29"/>
+                                        <connections>
+                                            <action selector="visibleChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="xlp-P1-0qB"/>
+                                        </connections>
+                                    </stepper>
+                                    <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="pNP-3C-I2y">
+                                        <rect key="frame" x="108" y="117" width="343" height="30"/>
+                                        <connections>
+                                            <action selector="saturationChanged:" destination="BYZ-38-t0r" eventType="valueChanged" id="emK-Ex-I0o"/>
+                                        </connections>
+                                    </slider>
+                                </subviews>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="cIe-Hd-Nyl" firstAttribute="centerY" secondItem="zuS-os-FT3" secondAttribute="centerY" id="BNG-WN-LPQ"/>
+                                    <constraint firstAttribute="trailing" secondItem="cIe-Hd-Nyl" secondAttribute="trailing" constant="22" id="OTz-mX-9PB"/>
+                                    <constraint firstItem="42e-qO-7MR" firstAttribute="trailing" secondItem="zuS-os-FT3" secondAttribute="trailingMargin" id="UG9-Fn-eCa"/>
+                                    <constraint firstItem="pNP-3C-I2y" firstAttribute="top" secondItem="cIe-Hd-Nyl" secondAttribute="bottom" constant="17" id="ULt-S7-Q3k"/>
+                                    <constraint firstItem="NVv-Wc-hjp" firstAttribute="top" secondItem="42e-qO-7MR" secondAttribute="top" id="anL-7n-QO7"/>
+                                    <constraint firstItem="cIe-Hd-Nyl" firstAttribute="leading" secondItem="pNP-3C-I2y" secondAttribute="leading" id="bWk-i0-a9F"/>
+                                    <constraint firstItem="NVv-Wc-hjp" firstAttribute="top" secondItem="zuS-os-FT3" secondAttribute="topMargin" id="cc0-ml-Fgl"/>
+                                    <constraint firstItem="cIe-Hd-Nyl" firstAttribute="trailing" secondItem="pNP-3C-I2y" secondAttribute="trailing" id="krT-bz-DOF"/>
+                                    <constraint firstAttribute="bottom" secondItem="pNP-3C-I2y" secondAttribute="bottom" constant="25" id="lIj-3s-rRD"/>
+                                    <constraint firstItem="NVv-Wc-hjp" firstAttribute="leading" secondItem="zuS-os-FT3" secondAttribute="leadingMargin" id="rVK-SO-Clv"/>
+                                    <constraint firstItem="NVv-Wc-hjp" firstAttribute="bottom" secondItem="42e-qO-7MR" secondAttribute="bottom" id="wOA-R5-9Ci"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="wrz-bb-R2E" firstAttribute="trailing" secondItem="VW0-MQ-f7h" secondAttribute="trailing" id="03O-O3-GXs"/>
-                            <constraint firstItem="VW0-MQ-f7h" firstAttribute="top" secondItem="wrz-bb-R2E" secondAttribute="bottom" id="03b-fI-U7j"/>
-                            <constraint firstItem="wrz-bb-R2E" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="9q7-D1-Hed"/>
-                            <constraint firstItem="VW0-MQ-f7h" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="Q7O-qy-R5x"/>
-                            <constraint firstAttribute="trailing" secondItem="wrz-bb-R2E" secondAttribute="trailing" id="ZTS-tq-SKW"/>
-                            <constraint firstItem="wrz-bb-R2E" firstAttribute="leading" secondItem="VW0-MQ-f7h" secondAttribute="leading" id="kBJ-DD-9mU"/>
-                            <constraint firstItem="wrz-bb-R2E" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="ypc-Sc-Lre"/>
+                            <constraint firstItem="VW0-MQ-f7h" firstAttribute="top" secondItem="wrz-bb-R2E" secondAttribute="bottom" id="0ay-BL-9HO"/>
+                            <constraint firstItem="VW0-MQ-f7h" firstAttribute="top" secondItem="zuS-os-FT3" secondAttribute="bottom" constant="12" id="Bl1-AU-Zl2"/>
+                            <constraint firstItem="zuS-os-FT3" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="777" id="Clw-Ja-cl8"/>
+                            <constraint firstItem="wrz-bb-R2E" firstAttribute="trailing" secondItem="VW0-MQ-f7h" secondAttribute="trailing" id="IdY-xQ-FfO"/>
+                            <constraint firstItem="VW0-MQ-f7h" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="cAO-w3-9KQ"/>
+                            <constraint firstItem="zuS-os-FT3" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="149" id="dEQ-u2-x1v"/>
+                            <constraint firstItem="wrz-bb-R2E" firstAttribute="leading" secondItem="VW0-MQ-f7h" secondAttribute="leading" id="fGh-eI-ZWu"/>
+                            <constraint firstItem="wrz-bb-R2E" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="g7k-mz-5UK"/>
+                            <constraint firstAttribute="trailing" secondItem="wrz-bb-R2E" secondAttribute="trailing" id="ks1-QT-5L0"/>
+                            <constraint firstItem="zuS-os-FT3" firstAttribute="centerX" secondItem="VW0-MQ-f7h" secondAttribute="centerX" id="uiE-wq-a43"/>
+                            <constraint firstItem="wrz-bb-R2E" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="wZM-Lv-aTb"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="HueValue" destination="cIe-Hd-Nyl" id="yLI-vh-Btj"/>
+                        <outlet property="NodeNumber" destination="NVv-Wc-hjp" id="RUo-Vw-YGX"/>
+                        <outlet property="SaturationValue" destination="pNP-3C-I2y" id="vYp-R2-Moq"/>
+                        <outlet property="SettingWindow" destination="zuS-os-FT3" id="aSK-4Z-4an"/>
+                        <outlet property="VisibleNumber" destination="42e-qO-7MR" id="7Dt-av-Lrt"/>
                         <outlet property="sceneView" destination="wrz-bb-R2E" id="sy1-P3-sow"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="141.59999999999999" y="133.5832083958021"/>
+            <point key="canvasLocation" x="141.40625" y="133.0078125"/>
         </scene>
     </scenes>
 </document>

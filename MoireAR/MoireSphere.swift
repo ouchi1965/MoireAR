@@ -9,24 +9,66 @@
 import Foundation
 import SceneKit
 
+struct InitParameter {
+    var className: String
+    var parameters: [String: CGFloat]
+}
 
 class MoireControl {
     private var _number: Int!
-    private var sphere: [MoireObject] = []
+    private var _visibleNumber: Int!
+    private var moireObjects: [MoireObject] = []
     private var _lineWidth: CGFloat = 2.0
     private var _skipSize: CGFloat = 10.0
     private var _lineColor: CGColor = UIColor.gray.cgColor
     private var _position: SCNVector3 = SCNVector3Make(0.0, 0.0, 0.0)
-    
+    private var _isHidden: Bool = false
+    private let textureSize = CGSize(width: 2048.0, height: 2048.0)
+    private var initParm: InitParameter!
+
     public var number: Int {
         get {
             return self._number
+        }
+
+        set (num) {
+            self.moireObjects.removeAll()
+            switch self.initParm.className {
+            case "Sphere":
+                self.setSphere(number: num, minRadius: self.initParm.parameters["minRadius"]!, maxRadius: self.initParm.parameters["maxRadius"]!)
+            case "Box":
+                self.setBox(number: num, minLength: self.initParm.parameters["minLength"]!, maxLength: self.initParm.parameters["maxLength"]!, chamRadius: self.initParm.parameters["chamRadius"]!)
+            case "Torus":
+                self.setTorus(number: num, ringRadius: self.initParm.parameters["ringRadius"]!, minPipeRadius: self.initParm.parameters["minPipeRadius"]!, maxPipeRadius: self.initParm.parameters["maxPipeRadius"]!)
+            default:
+                print("fail to reset")
+            }
+        }
+    }
+
+    public var visibleNumber: Int {
+        get {
+            return self._visibleNumber
+        }
+        
+        set (num) {
+            self._visibleNumber = num
+            
+            if (self._isHidden == false) {
+                for mem in 0..<self._visibleNumber {
+                    self.moireObjects[mem].isHidden = false
+                }
+                
+                for mem in self._visibleNumber..<self._number {
+                    self.moireObjects[mem].isHidden = true
+                }
+            }
         }
     }
     
     public var nodes: [MoireObject] {
         get {
-            return self.sphere
+            return self.moireObjects
         }
     }
     
@@ -36,7 +78,7 @@ class MoireControl {
         }
         
         set (val) {
-            for each in self.sphere {
+            for each in self.moireObjects {
                 each.position = val
             }
         }
@@ -49,7 +91,7 @@ class MoireControl {
         
         set (val) {
             self._lineWidth = val
-            for each in self.sphere {
+            for each in self.moireObjects {
                 each.lineWidth = val
             }
         }
@@ -62,7 +104,7 @@ class MoireControl {
         
         set (val) {
             self._skipSize = val
-            for each in self.sphere {
+            for each in self.moireObjects {
                 each.skipSize = val
             }
         }
@@ -75,48 +117,105 @@ class MoireControl {
         
         set (col) {
             self._lineColor = col
-            for each in self.sphere {
+            for each in self.moireObjects {
                 each.color = col
             }
         }
     }
     
+    public var isHidden: Bool {
+        get {
+            return self._isHidden
+        }
+        
+        set (val) {
+            self._isHidden = val
+            if (val == true) {
+                for each in self.moireObjects {
+                    each.isHidden = true
+                }
+            } else {
+                for num in 0..<self._visibleNumber {
+                    self.moireObjects[num].isHidden = false
+                }
+                
+                for num in self._visibleNumber..<self._number {
+                    self.moireObjects[num].isHidden = true
+                }
+            }
+        }
+    }
+
+    
     init(number: Int, minRadius: CGFloat, maxRadius: CGFloat) {
-        let textureSize = CGSize(width: 2048.0, height: 2048.0)
+        self.initParm = InitParameter(className: "Sphere", parameters: ["minRadius": minRadius, "maxRadius": maxRadius])
+        self.setSphere(number: number, minRadius: minRadius, maxRadius: maxRadius)
+    }
+    
+    init(number: Int, minLength: CGFloat, maxLength: CGFloat, chamRadius: CGFloat) {
+        self.initParm = InitParameter(className: "Box", parameters: ["minLength": minLength, "maxLength": maxLength, "chamRadius": chamRadius])
+        self.setBox(number: number, minLength: minLength, maxLength: maxLength, chamRadius: chamRadius)
+    }
+    
+    init(number: Int, ringRadius: CGFloat, minPipeRadius: CGFloat, maxPipeRadius: CGFloat) {
+        self.initParm = InitParameter(className: "Torus", parameters: ["ringRadius": ringRadius, "minPipeRadius": minPipeRadius, "maxPipeRadius": maxPipeRadius])
+        self.setTorus(number: number, ringRadius: ringRadius, minPipeRadius: minPipeRadius, maxPipeRadius: maxPipeRadius)
+    }
+    
+    public func update() {
+        for member in self.moireObjects {
+            member.update()
+        }
+    }
+    
+    
+    private func setSphere(number: Int, minRadius: CGFloat, maxRadius: CGFloat) {
         if (number<2) {
             self._number = 1
             let rad = (minRadius + maxRadius)/2.0
-            self.sphere.append(MoireObject(radius: rad, textSize: textureSize ,skipSize: self._skipSize, lineWidth: self._lineWidth, color: self._lineColor))
+            self.moireObjects.append(MoireObject(radius: rad, textSize: self.textureSize ,skipSize: self._skipSize, lineWidth: self._lineWidth, color: self._lineColor))
         } else {
             self._number = number
             let delta = (maxRadius - minRadius)/CGFloat(self._number-1)
             for num in 0..<self._number {
                 let radius = minRadius + delta*CGFloat(num)
-                self.sphere.append(MoireObject(radius: radius, textSize: textureSize ,skipSize: self._skipSize, lineWidth: self._lineWidth, color: self._lineColor))
+                self.moireObjects.append(MoireObject(radius: radius, textSize: self.textureSize ,skipSize: self._skipSize, lineWidth: self._lineWidth, color: self._lineColor))
             }
-        }        
+        }
+        self._visibleNumber = number
+        
     }
     
-    init(number: Int, minLength: CGFloat, maxLength: CGFloat, chamRadius: CGFloat) {
-        let textureSize = CGSize(width: 2048.0, height: 2048.0)
+    private func setBox(number: Int, minLength: CGFloat, maxLength: CGFloat, chamRadius: CGFloat) {
         if (number<2) {
             self._number = 1
             let length = (minLength + maxLength)/2.0
-            self.sphere.append(MoireObject(width: length, height: length, length: length, chamferRadius: chamRadius, textSize: textureSize, skipSize: self._skipSize, lineWidth: self._lineWidth, color: self._lineColor))
+            self.moireObjects.append(MoireObject(width: length, height: length, length: length, chamferRadius: chamRadius, textSize: self.textureSize, skipSize: self._skipSize, lineWidth: self._lineWidth, color: self._lineColor))
         } else {
             self._number = number
             let delta = (maxLength - minLength)/CGFloat(self._number-1)
             for num in 0..<self._number {
                 let length = minLength + delta*CGFloat(num)
-                self.sphere.append(MoireObject(width: length, height: length, length: length, chamferRadius: chamRadius, textSize: textureSize, skipSize: self._skipSize, lineWidth: self._lineWidth, color: self._lineColor))
+                self.moireObjects.append(MoireObject(width: length, height: length, length: length, chamferRadius: chamRadius, textSize: self.textureSize, skipSize: self._skipSize, lineWidth: self._lineWidth, color: self._lineColor))
             }
         }
+            self._visibleNumber = number
     }
     
-    public func update() {
-        for member in self.sphere {
-            member.update()
+    private func setTorus(number: Int, ringRadius: CGFloat, minPipeRadius: CGFloat, maxPipeRadius: CGFloat) {
+        if (number<2) {
+            self._number = 1
+            let radius = (minPipeRadius + maxPipeRadius)/2.0
+            self.moireObjects.append( MoireObject(ringRadius: ringRadius, pipeRadius: radius, textSize: self.textureSize, skipSize: self._skipSize, lineWidth: self._lineWidth, color: self._lineColor))
+        } else {
+            self._number = number
+            let delta = (maxPipeRadius - minPipeRadius)/CGFloat(self._number-1)
+            for num in 0..<self._number {
+                let radius = minPipeRadius + delta*CGFloat(num)
+                self.moireObjects.append( MoireObject(ringRadius: ringRadius, pipeRadius: radius, textSize: self.textureSize, skipSize: self._skipSize, lineWidth: self._lineWidth, color: self._lineColor))
+            }
         }
+        self._visibleNumber = number
     }
 }
 
@@ -187,6 +286,15 @@ class MoireObject: SCNNode {
         
         let box = SCNBox(width: width, height: height, length: length, chamferRadius: chamferRadius)
         self.initParameters(geometry: box, textSize: textSize, skipSize: skipSize, lineWidth: lineWidth, color: color)
+    }
+    
+    init(ringRadius: CGFloat, pipeRadius: CGFloat, textSize: CGSize, skipSize: CGFloat, lineWidth: CGFloat, color: CGColor) {
+        super.init()
+        
+        let torus = SCNTorus(ringRadius: ringRadius, pipeRadius: pipeRadius)
+        torus.ringSegmentCount = 96
+        torus.pipeSegmentCount = 48
+        self.initParameters(geometry: torus, textSize: textSize, skipSize: skipSize, lineWidth: lineWidth, color: color)
     }
     
     required init?(coder aDecoder: NSCoder) {
